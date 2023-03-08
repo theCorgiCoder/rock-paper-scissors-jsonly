@@ -1,48 +1,54 @@
 function computerPlay() {
   const gameMoves = ["rock", "paper", "scissors"];
-  const randomizedSelection =
+  const randomSelection =
     gameMoves[Math.floor(Math.random() * gameMoves.length)];
-  return randomizedSelection;
+  return randomSelection;
 }
 
 function playerPlay() {
-  let playerSelection = prompt("Choose rock, paper, or scissors!");
-  return playerSelection.toLowerCase();
+  let playerInput = prompt("Choose rock, paper, or scissors!").toLowerCase();
+  return playerInput;
 }
 
-console.log(playerPlay());
+function game() {
+  console.clear;
+  let playerScore = 0;
+  let computerScore = 0;
+  let ties = 0;
+  const player = playerPlay();
+  const computer = computerPlay();
 
-function playRound(playerSelection, computerSelection) {
-  if (playerSelection === computerSelection) {
-    return "It's a tie!";
-  }
-
-  if (playerSelection === "rock") {
-    if (computerSelection === "scissors") {
-      return "Rock breaks scissors! You're rocking it!";
+  function playRound(playerSelection, computerSelection) {
+    if (playerSelection === computerSelection) {
+      ties += 1;
+      return console.log(
+        `${playerSelection} vs ${computerSelection}, it's a tie!`
+      );
+    } else if (playerSelection === "rock" && computerSelection === "scissors") {
+      playerScore += 1;
+      return console.log(
+        "Player wins! Rock breaks scissors! You're rocking it!"
+      );
+    } else if (
+      playerSelection === "scissors" &&
+      computerSelection === "paper"
+    ) {
+      playerScore += 1;
+      return console.log("Player win! Scissors cut paper! Shearing up to win!");
+    } else if (playerSelection === "paper" && computerSelection === "rock") {
+      playerScore += 1;
+      return console.log("Player wins! Paper covers rock!");
     } else {
-      return "Bad luck, paper covers rock... your loss!";
+      computerScore += 1;
+      return console.log(
+        `Player loss! ${computerSelection} beats ${playerSelection}`
+      );
     }
   }
 
-  if (playerSelection === "paper") {
-    if (computerSelection === "scissors") {
-      return "Oh no, scissors cut paper! Your loss.";
-    } else {
-      ("Paper covers rock! You win!");
-    }
-  }
-
-  if (playerSelection === "scissors") {
-    if (computerSelection === "rock") {
-      return "Rock smashes scissors, sadly a loss.";
-    } else {
-      return "Scissors cut paper! You win!";
-    }
+  for (let i = 0; i < 5; i++) {
+    playRound(player, computer);
   }
 }
 
-const computerSelection = computerPlay();
-const playerSelection = "rock";
-
-console.log(playRound(playerSelection, computerSelection));
+game();
